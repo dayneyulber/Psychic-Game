@@ -1,47 +1,35 @@
-var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "x", "y", "z"];
-
-var Wins = 0;
-var Losses = 0;
-var GuessesLeft = 9;
-var Guesses = 9;
-var YourGuessessofar = [];
-var PsychicLetter;
-
-var newLetter = function() {
-psychicLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
-};
-
-var soFar = function() {
-document.getElementById("Guesses").innerHTML = "Guesses so far: " + YourGuessessofar.join(",");
-};
-
-var guessesLeft = function() {
-document.getElementById("GuessesLeft").innerHTML = "Guesses Left: " + GuessesLeft;
-};
-
-var newGame = function() {
-guessedLetters = [];
-left = 9;
-newLetter();
-guessesLeft();
-soFar();
-}
-
-document.onkeyup = function(event) {
-var userGuess = event.key;
-GuessesLeft--;
-YourGuessessofar.push(userGuess);
-soFar();
-guessesLeft();
-if (GuessesLeft > 0) {
-    if (userGuess == psychicLetter) {
-        Wins++;
-        document.getElementById("wins").innerHTML = "Wins: " + Wins;
-        newGame();
-}
-} else if (left == 0) {
-    Losses++;
-    document.getElementById("losses").innerHTML = "Losses: " + Losses;
-    newGame();
-}
-};
+var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+   var wins = 0;
+   var losses = 0;
+   var guessesLeft = 9;
+   var letterUser = [];
+   var eachofLetters = null;
+   var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+   function countGuessesLeft() {
+       document.querySelector("#left").innerHTML = "Guesses Left: " + guessesLeft;
+   }
+   function farUserGuesses() {
+       document.querySelector("#guesses").innerHTML = "Your Guesses so far: " + letterUser.join(" ");
+   }
+   countGuessesLeft();
+   var restart = function() {
+       guessesLeft = 9;
+       letterUser = [];
+       var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+   }
+   document.onkeyup = function(event) {
+       guessesLeft--;
+       var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+       letterUser.push(userGuess);
+       countGuessesLeft();
+       farUserGuesses();
+       if (userGuess === computerGuess){
+           wins++;
+           document.querySelector("#win").innerHTML = "Wins: " + wins;
+           restart();
+       }else if (guessesLeft === 0) {
+           losses++;
+           document.querySelector("#lose").innerHTML = "Loses: " + losses;
+           restart();
+       }
+   };
